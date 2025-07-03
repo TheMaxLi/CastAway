@@ -16,14 +16,13 @@ export const load = async () => {
 export const actions = {
 	uploadSingle: async ({ request }) => {
 		try {
-			console.log('hello');
 			const formData = await request.formData();
 			const file = formData.get('image');
 
 			if (!file || !(file instanceof File)) {
 				return fail(400, { error: 'No valid image file provided' });
 			}
-			console.log(file);
+
 			if (!file.type.startsWith('image/')) {
 				return fail(400, { error: 'File must be an image' });
 			}
