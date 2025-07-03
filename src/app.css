@@ -1,2 +1,18 @@
 @import 'tailwindcss';
 @plugin '@tailwindcss/typography';
+
+@theme {
+    --animate-cloud-float: float 2500ms ease-in-out infinite alternate;
+
+    @keyframes float {
+        0% {
+            transform: translate(0, 10px);
+        }
+        50% {
+            transform: translate(0px, -10px);
+        }
+        100% {
+            transform: translate(0, 10px);
+        }
+    }
+}

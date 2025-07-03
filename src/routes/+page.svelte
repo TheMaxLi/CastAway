@@ -16,7 +16,8 @@
 		</div>
 	{/if}
 	{#if data.post}
-		<img class="h-[80vh]" src={data.post.image} alt="" />
+		<img class="h-[80vh] animate-cloud-float" src={data.post.image} alt="" />
+
 		<div class="flex justify-between absolute top-0 w-full">
 			<p class="text-red-400 text-6xl text-shadow-lg text-shadow-red-800">
 				Posted By: {data.post.postedBy}
