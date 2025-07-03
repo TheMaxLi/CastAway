@@ -1,5 +1,4 @@
 <script lang="ts">
-	import { enhance } from '$app/forms';
 	import UploadModal from '$lib/components/UploadModal.svelte';
 
 	let { data, form } = $props();
@@ -29,11 +28,11 @@
 	{/if}
 	<UploadModal bind:inputRef bind:love bind:uploading bind:isModalOpen />
 	<button
-		class="absolute bottom-8 flex justify-center items-centers cursor-pointer text-6xl p-4 text-green-400 text-shadow-green-800 text-shadow-lg border-8 border-green-400 drop-shadow-2xl drop-shadow-green-800"
+		class="cursor-pointer absolute bottom-8 flex text-green-400 text-shadow-green-800 p-4 text-shadow-lg text-6xl border-green-400 border-8 drop-shadow drop-shadow-green-800"
 		type="button"
 		disabled={uploading}
 		onclick={() => (isModalOpen = true)}
 	>
-		Did you find your Love?
+		Found Love?
 	</button>
 </div>
