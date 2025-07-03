@@ -1,10 +1,10 @@
 import { db } from '$lib/server/db/index.js';
 import { post } from '$lib/server/db/schema';
-import { fail } from '@sveltejs/kit';
-import { desc } from 'drizzle-orm';
+import { asc, desc } from 'drizzle-orm';
 import { env } from '$env/dynamic/private';
 import { s3Client } from '$lib/server/aws';
 import { PutObjectCommand } from '@aws-sdk/client-s3';
+import { fail } from '@sveltejs/kit';
 import ExifReader from 'exifreader';
 
 export const load = async () => {
@@ -16,13 +16,14 @@ export const load = async () => {
 export const actions = {
 	uploadSingle: async ({ request }) => {
 		try {
+			console.log('hello');
 			const formData = await request.formData();
 			const file = formData.get('image');
 
 			if (!file || !(file instanceof File)) {
 				return fail(400, { error: 'No valid image file provided' });
 			}
-
+			console.log(file);
 			if (!file.type.startsWith('image/')) {
 				return fail(400, { error: 'File must be an image' });
 			}
