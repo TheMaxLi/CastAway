@@ -4,6 +4,6 @@
 	let { children } = $props();
 </script>
 
-<div style="background-image: url(/static/background.JPG); background-size: cover;">
+<div style="background-image: url(/background.JPG); background-size: cover;">
 	{@render children()}
 </div>
