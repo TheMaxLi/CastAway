@@ -19,17 +19,17 @@ export function dmsToDecimal(dmsArray: number[], ref: GPSRef) {
 
 export function extractLocation(exifData: Tags) {
 	try {
-	 const gpsLatitude = exifData.GPSLatitude?.value as number[] | undefined;
-    const gpsLatitudeRef = exifData.GPSLatitudeRef?.value?.[0] as GPSRef | undefined;
-    const gpsLongitude = exifData.GPSLongitude?.value as number[] | undefined;
-    const gpsLongitudeRef = exifData.GPSLongitudeRef?.value?.[0] as GPSRef | undefined;
-    
-    if (!gpsLatitude || !gpsLongitude || !gpsLatitudeRef || !gpsLongitudeRef) {
-      return null;
-    }
-    
-    const latitude = dmsToDecimal(gpsLatitude, gpsLatitudeRef);
-    const longitude = dmsToDecimal(gpsLongitude, gpsLongitudeRef);
+		const gpsLatitude = exifData.GPSLatitude?.value as number[] | undefined;
+		const gpsLatitudeRef = exifData.GPSLatitudeRef?.value?.[0] as GPSRef | undefined;
+		const gpsLongitude = exifData.GPSLongitude?.value as number[] | undefined;
+		const gpsLongitudeRef = exifData.GPSLongitudeRef?.value?.[0] as GPSRef | undefined;
+
+		if (!gpsLatitude || !gpsLongitude || !gpsLatitudeRef || !gpsLongitudeRef) {
+			return null;
+		}
+
+		const latitude = dmsToDecimal(gpsLatitude, gpsLatitudeRef);
+		const longitude = dmsToDecimal(gpsLongitude, gpsLongitudeRef);
 
 		if (latitude === null || longitude === null) {
 			return null;
@@ -45,4 +45,36 @@ export function extractLocation(exifData: Tags) {
 		console.error('Error extracting location:', error);
 		return null;
 	}
+}
+
+export function clickOutside(node: HTMLElement, handler: () => void): { destroy: () => void } {
+	const onClick = (event: MouseEvent) =>
+		node && !node.contains(event.target as HTMLElement) && !event.defaultPrevented && handler();
+
+	document.addEventListener('mousedown', onClick, true);
+
+	return {
+		destroy() {
+			document.removeEventListener('mousedown', onClick, true);
+		}
+	};
+}
+
+export function saveObjectToLocalStorage<T>(key: string, object: T) {
+	localStorage.setItem(key, JSON.stringify(object));
+}
+export function loadObjectFromLocalStorage<T>(key: string): T | null {
+	const saved = localStorage.getItem(key);
+	if (saved) {
+		try {
+			return JSON.parse(saved);
+		} catch (e) {
+			console.error('Invalid object in localStorage', e);
+		}
+	}
+	return null;
+}
+
+export function clearObjectFromLocalStorage(key: string) {
+	localStorage.removeItem(key);
 }
