@@ -34,15 +34,38 @@ export const actions = {
 			const buffer = Buffer.from(await file.arrayBuffer());
 			const filename = `${Date.now()}-${file.name}`;
 
-			// let location = null;
-			// try {
-			// 	const exifData = ExifReader.load(buffer);
-			// 	location = extractLocation(exifData);
-			// } catch (exifError: any) {
-			// 	console.warn(`Could not extract EXIF data from ${file.name}:`, exifError.message);
-			// }
+			let location = null;
 
-			console.log(ExifReader.load(buffer));
+			try {
+				const tags = await ExifReader.load(buffer, { async: true });
+
+				const lat = tags['GPSLatitude']?.value as [number, number][];
+				const lon = tags['GPSLongitude']?.value as [number, number][];
+				const latRef = tags['GPSLatitudeRef']?.description;
+				const lonRef = tags['GPSLongitudeRef']?.description;
+
+				if (lat && lon && latRef && lonRef) {
+					const toDecimal = (coords: [number, number][], ref: string): number => {
+						const [degRaw, minRaw, secRaw] = coords;
+
+						const deg = degRaw[0] / degRaw[1];
+						const min = minRaw[0] / minRaw[1];
+						const sec = secRaw[0] / secRaw[1];
+
+						let decimal = deg + min / 60 + sec / 3600;
+						if (ref === 'S' || ref === 'W') decimal *= -1;
+						return decimal;
+					};
+
+					location = {
+						latitude: toDecimal(lat, latRef),
+						longitude: toDecimal(lon, lonRef)
+					};
+				}
+			} catch (err) {
+				console.error('Failed to read EXIF data:', err);
+			}
+			console.log(location);
 			const uploadParams = {
 				Bucket: env.AWS_BUCKET_NAME,
 				Key: filename,
@@ -50,13 +73,13 @@ export const actions = {
 				ContentType: file.type
 			};
 
-			await s3Client.send(new PutObjectCommand(uploadParams));
+			// await s3Client.send(new PutObjectCommand(uploadParams));
 
-			const fileUrl = `https://${env.AWS_BUCKET_NAME}.s3.${env.AWS_BUCKET_REGION}.amazonaws.com/${filename}`;
+			// const fileUrl = `https://${env.AWS_BUCKET_NAME}.s3.${env.AWS_BUCKET_REGION}.amazonaws.com/${filename}`;
 
-			const result = (
-				await db.insert(post).values({ image: fileUrl, postedBy: 'tina_monkey' }).returning()
-			)[0];
+			// const result = (
+			// 	await db.insert(post).values({ image: fileUrl, postedBy: 'tina_monkey' }).returning()
+			// )[0];
 
 			return {
 				success: true,
@@ -64,11 +87,11 @@ export const actions = {
 				file: {
 					originalName: file.name,
 					filename,
-					fileUrl,
+					// fileUrl,
 					fileType: file.type,
 					fileSize: file.size
-				},
-				result
+				}
+				// result
 			};
 		} catch (error) {
 			console.error('Upload error:', error);
