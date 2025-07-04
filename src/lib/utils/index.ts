@@ -20,9 +20,9 @@ export function dmsToDecimal(dmsArray: number[], ref: GPSRef) {
 export function extractLocation(exifData: Tags) {
 	try {
 		const gpsLatitude = exifData.GPSLatitude?.value as number[] | undefined;
-		const gpsLatitudeRef = exifData.GPSLatitudeRef?.value?.[0] as GPSRef | undefined;
+		const gpsLatitudeRef = exifData.GPSLatitudeRef?.value as GPSRef | undefined;
 		const gpsLongitude = exifData.GPSLongitude?.value as number[] | undefined;
-		const gpsLongitudeRef = exifData.GPSLongitudeRef?.value?.[0] as GPSRef | undefined;
+		const gpsLongitudeRef = exifData.GPSLongitudeRef?.value as GPSRef | undefined;
 
 		if (!gpsLatitude || !gpsLongitude || !gpsLatitudeRef || !gpsLongitudeRef) {
 			return null;
