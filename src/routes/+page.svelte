@@ -18,22 +18,24 @@
 	{#if data.post}
 		<img class="h-[80vh] animate-cloud-float" src={data.post.image} alt="" />
 
-		<div class="flex justify-between absolute top-0 w-full">
-			<p class="text-red-400 text-6xl text-shadow-lg text-shadow-red-800">
+		<div class="flex absolute top-0 w-full">
+			<p class="text-red-400 md:text-6xl text-shadow-lg text-shadow-red-800 text-3xl flex-1/2">
 				Posted By: {data.post.postedBy}
 			</p>
-			<p class="text-yellow-400 text-6xl text-shadow-lg text-shadow-amber-800">
+			<p class="text-yellow-400 md:text-6xl text-shadow-lg text-shadow-amber-800 text-3xl">
 				{data.post.createdAt?.toDateString()}
 			</p>
 		</div>
 	{/if}
 	<UploadModal bind:inputRef bind:love bind:uploading bind:isModalOpen />
-	<button
-		class="cursor-pointer absolute bottom-8 flex text-green-400 text-shadow-green-800 p-4 text-shadow-lg text-6xl border-green-400 border-8 drop-shadow drop-shadow-green-800"
-		type="button"
-		disabled={uploading}
-		onclick={() => (isModalOpen = true)}
-	>
-		Found Love?
-	</button>
+	{#if data.authenticated}
+		<button
+			class="cursor-pointer absolute bottom-8 flex text-green-400 text-shadow-green-800 p-4 text-shadow-lg md:text-6xl text-4xl border-green-400 md:border-8 border-4 drop-shadow drop-shadow-green-800"
+			type="button"
+			disabled={uploading}
+			onclick={() => (isModalOpen = true)}
+		>
+			Found Love?
+		</button>
+	{/if}
 </div>
