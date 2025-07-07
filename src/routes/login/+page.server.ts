@@ -14,7 +14,7 @@ export const actions = {
 		if (authenticated) {
 			return redirect(308, '/');
 		}
-
+		console.log('hello');
 		return fail(401);
 	}
 };

@@ -6,6 +6,7 @@ import { s3Client } from '$lib/server/aws';
 import { PutObjectCommand } from '@aws-sdk/client-s3';
 import { fail } from '@sveltejs/kit';
 import ExifReader from 'exifreader';
+import { loadObjectFromCookies } from '$lib/utils';
 
 export const load = async () => {
 	return {
@@ -14,7 +15,13 @@ export const load = async () => {
 };
 
 export const actions = {
-	uploadSingle: async ({ request }) => {
+	uploadSingle: async ({ request, cookies }) => {
+		let secret_password = loadObjectFromCookies<{ password: string }>(cookies, 'secret_password');
+		let authenticated = secret_password?.password === env.SUPER_SECRET_PASSWORD;
+
+		if (!authenticated) {
+			return new Error('Not authenticated');
+		}
 		try {
 			const formData = await request.formData();
 			const file = formData.get('image');
@@ -65,7 +72,7 @@ export const actions = {
 			} catch (err) {
 				console.error('Failed to read EXIF data:', err);
 			}
-			console.log(location);
+
 			const uploadParams = {
 				Bucket: env.AWS_BUCKET_NAME,
 				Key: filename,
@@ -73,13 +80,21 @@ export const actions = {
 				ContentType: file.type
 			};
 
-			// await s3Client.send(new PutObjectCommand(uploadParams));
+			await s3Client.send(new PutObjectCommand(uploadParams));
 
-			// const fileUrl = `https://${env.AWS_BUCKET_NAME}.s3.${env.AWS_BUCKET_REGION}.amazonaws.com/${filename}`;
+			const fileUrl = `https://${env.AWS_BUCKET_NAME}.s3.${env.AWS_BUCKET_REGION}.amazonaws.com/${filename}`;
 
-			// const result = (
-			// 	await db.insert(post).values({ image: fileUrl, postedBy: 'tina_monkey' }).returning()
-			// )[0];
+			const result = (
+				await db
+					.insert(post)
+					.values({
+						image: fileUrl,
+						postedBy: 'tina_monkey',
+						latitude: location?.latitude,
+						longitude: location?.longitude
+					})
+					.returning()
+			)[0];
 
 			return {
 				success: true,
@@ -87,11 +102,11 @@ export const actions = {
 				file: {
 					originalName: file.name,
 					filename,
-					// fileUrl,
+					fileUrl,
 					fileType: file.type,
 					fileSize: file.size
-				}
-				// result
+				},
+				result
 			};
 		} catch (error) {
 			console.error('Upload error:', error);
