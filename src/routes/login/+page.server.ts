@@ -6,8 +6,12 @@ export const actions = {
 	savePassword: async ({ request, cookies }) => {
 		const formData = await request.formData();
 		const password = formData.get('password')?.toString() as string;
+		const username = formData.get('username')?.toString() as string;
 
-		saveObjectToCookies<{ password: string }>(cookies, 'secret_password', { password });
+		saveObjectToCookies<{ password: string; username: string }>(cookies, 'authenticatedState', {
+			password,
+			username
+		});
 
 		let authenticated = password === env.SUPER_SECRET_PASSWORD;
 

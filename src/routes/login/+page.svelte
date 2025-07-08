@@ -9,7 +9,18 @@
 		method="POST"
 		action="?/savePassword"
 	>
-		<input class="mb-4 bg-amber-50" type="text" name="password" required bind:value={password} />
+		<select name="username" id="username_select" class="bg-amber-50 mb-4 p-2">
+			<option value="max_monkey">Max monkey</option>
+			<option value="tina_monkey">Tina monkey</option>
+		</select>
+		<input
+			class="mb-4 p-2 bg-amber-50"
+			placeholder="password here..."
+			type="text"
+			name="password"
+			required
+			bind:value={password}
+		/>
 		<div class="flex justify-end gap-4">
 			<a
 				class="cursor-pointer text-3xl p-4 text-red-400 text-shadow-red-800

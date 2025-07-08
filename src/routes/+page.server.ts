@@ -16,8 +16,11 @@ export const load = async () => {
 
 export const actions = {
 	uploadSingle: async ({ request, cookies }) => {
-		let secret_password = loadObjectFromCookies<{ password: string }>(cookies, 'secret_password');
-		let authenticated = secret_password?.password === env.SUPER_SECRET_PASSWORD;
+		let authenticatedState = loadObjectFromCookies<{ password: string; username: string }>(
+			cookies,
+			'secret_password'
+		);
+		let authenticated = authenticatedState?.password === env.SUPER_SECRET_PASSWORD;
 
 		if (!authenticated) {
 			return new Error('Not authenticated');
@@ -89,7 +92,7 @@ export const actions = {
 					.insert(post)
 					.values({
 						image: fileUrl,
-						postedBy: 'tina_monkey',
+						postedBy: authenticatedState?.username as 'tina_monkey' | 'max_monkey',
 						latitude: location?.latitude,
 						longitude: location?.longitude
 					})
