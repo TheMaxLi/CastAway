@@ -26,6 +26,8 @@
 				{data.post.createdAt?.toDateString()}
 			</p>
 		</div>
+	{:else}
+		<p class="text-6xl">No post yet</p>
 	{/if}
 	<UploadModal bind:inputRef bind:love bind:uploading bind:isModalOpen />
 	{#if data.authenticated}

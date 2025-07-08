@@ -12,9 +12,9 @@ export const actions = {
 		let authenticated = password === env.SUPER_SECRET_PASSWORD;
 
 		if (authenticated) {
-			return redirect(308, '/');
+			return redirect(302, '/');
 		}
-		console.log('hello');
+
 		return fail(401);
 	}
 };
