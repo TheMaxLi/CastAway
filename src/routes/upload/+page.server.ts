@@ -11,7 +11,7 @@ export const actions = {
 	uploadSingle: async ({ request, cookies }) => {
 		let authenticatedState = loadObjectFromCookies<{ password: string; username: string }>(
 			cookies,
-			'secret_password'
+			'authenticatedState'
 		);
 		let authenticated = authenticatedState?.password === env.SUPER_SECRET_PASSWORD;
 

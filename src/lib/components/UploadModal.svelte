@@ -56,7 +56,9 @@
 		bind:this={image}
 	/>
 	<button
-		class="w-[400px] h-[400px] bg-amber-400 {!showImage ? '' : 'hidden'}"
+		class="w-[400px] h-[400px] border-dashed border-2 border-white shadow-2xl shadow-white drop-shadow-2xl drop-shadow-amber-700 text-2xl text-white text-shadow-lg {!showImage
+			? ''
+			: 'hidden'}"
 		onclick={() => inputRef?.click()}
 	>
 		Click me to upload
