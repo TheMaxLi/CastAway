@@ -12,7 +12,7 @@
 			<p class="text-white text-shadow-lg text-shadow-sky-100 text-3xl md:text-4xl">
 				⋆｡˚ ☁︎ ˚｡ Today's Heart ⋆｡˚ ☁︎ ˚｡
 			</p>
-			<img class="animate-cloud-float max-w-5/6 h-auto" src={data.post.image} alt="" />
+			<img class="animate-cloud-float max-w-5/6 h-auto max-h-[60vh]" src={data.post.image} alt="" />
 
 			<div class="flex absolute bottom-4 left-2">
 				<!-- <p class="text-red-400 md:text-6xl text-shadow-lg text-shadow-red-800 text-3xl flex-1/2">
