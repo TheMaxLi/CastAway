@@ -1,8 +1,7 @@
 <script lang="ts">
-	import { goto } from '$app/navigation';
 	import '../app.css';
 
-	let { children, data } = $props();
+	let { children } = $props();
 </script>
 
 <div

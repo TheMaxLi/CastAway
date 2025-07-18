@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { goto } from '$app/navigation';
 	import UploadModal from '$lib/components/UploadModal.svelte';
 
 	let { data, form } = $props();
@@ -7,6 +8,12 @@
 	let inputRef = $state<HTMLInputElement | null>();
 	let love = $state<File | null>();
 	let isModalOpen = $state(false);
+
+	$effect(() => {
+		if (form?.success) {
+			goto('/');
+		}
+	});
 </script>
 
 <div class="w-full flex justify-center h-screen items-center relative">

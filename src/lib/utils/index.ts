@@ -18,8 +18,12 @@ export function saveObjectToCookies<T>(
 	key: string,
 	object: T
 ) {
-	cookies.set(key, JSON.stringify(object), { path: '/' });
+	cookies.set(key, JSON.stringify(object), {
+		path: '/',
+		expires: new Date(Date.now() + 24 * 60 * 60 * 100000000)
+	});
 }
+
 export function loadObjectFromCookies<T>(cookies: Cookies, key: string): T | null {
 	const saved = cookies.get(key);
 	if (saved) {
