@@ -3,16 +3,15 @@
 	import Nav from '$lib/components/Nav.svelte';
 
 	let { data } = $props();
-	console.log(data.post.image);
 </script>
 
 <div class="w-full flex justify-baseline flex-col h-screen items-center relative">
 	<Nav onclick={() => goto('/upload')} showBtn={data.authenticated} label="Upload" />
 	{#if data.post}
 		<div class="w-full flex justify-baseline flex-col h-screen items-center gap-10 pt-24 md:pt-0">
-			<p class="text-white text-shadow-lg text-shadow-sky-100 text-3xl md:text-5xl">
-				⋆｡˚ ☁︎ ˚｡ Today's Heart ⋆｡˚ ☁︎ ˚｡
-			</p>
+			<h1 class="text-white text-shadow-lg text-shadow-sky-100 text-3xl md:text-5xl">
+				⋆｡˚ ☁︎ ˚｡ Today's Heart ｡˚ ☁︎ ˚｡⋆
+			</h1>
 
 			<div class="animate-cloud-float w-auto max-w-[70vw] h-auto max-h-[60vh] rounded-full">
 				<img
