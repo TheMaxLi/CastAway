@@ -8,8 +8,8 @@
 <div class="w-full flex justify-baseline flex-col h-screen items-center relative">
 	<Nav onclick={() => goto('/upload')} authenticated={data.authenticated} label="Upload" />
 	{#if data.post}
-		<div class="w-full flex justify-baseline flex-col h-screen items-center gap-10 pt-10">
-			<p class="text-white text-shadow-lg text-shadow-sky-100 text-3xl md:text-4xl">
+		<div class="w-full flex justify-baseline flex-col h-screen items-center gap-10 pt-">
+			<p class="text-white text-shadow-lg text-shadow-sky-100 text-3xl md:text-5xl">
 				⋆｡˚ ☁︎ ˚｡ Today's Heart ⋆｡˚ ☁︎ ˚｡
 			</p>
 			<img class="animate-cloud-float max-w-5/6 h-auto max-h-[60vh]" src={data.post.image} alt="" />
